@@ -49,7 +49,7 @@ def create_user_route(
     user_data: CreateUserRequest,
     repo=Depends(get_user_repository),
 ):
-    user = create_user(repo, user_data.dict())
+    user = create_user(repo, user_data.model_dump())
     return user
 
 

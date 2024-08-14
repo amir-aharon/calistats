@@ -46,7 +46,7 @@ def create_stat_route(
     stat_type_repo=Depends(get_stat_type_repository),
 ):
     try:
-        stat = create_stat(stat_repo, stat_type_repo, stat_data.dict())
+        stat = create_stat(stat_repo, stat_type_repo, stat_data.model_dump())
         return stat
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
