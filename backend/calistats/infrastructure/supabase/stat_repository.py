@@ -1,5 +1,3 @@
-# infra/supabase/stat_repository.py
-
 from calistats.domain.models import Stat
 from calistats.domain.repositories import StatRepository
 from calistats.infrastructure.supabase.base_repository import BaseSupabaseRepository
