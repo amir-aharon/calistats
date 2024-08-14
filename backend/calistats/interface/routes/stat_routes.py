@@ -7,7 +7,6 @@ from calistats.application.stat_use_cases import create_stat, get_stat_by_id, de
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from calistats.interface.dependencies import get_stat_repository, get_stat_type_repository
-from calistats.domain.models import Stat
 
 stat_router = APIRouter()
 
@@ -26,12 +25,12 @@ class StatResponse(BaseModel):
     date: str
 
 
-@stat_router.get("/stats/", response_model=list[StatResponse])
+@stat_router.get("/stats/", response_model=list[StatResponse], tags=["Stats"])
 def get_all_stats_route(repo=Depends(get_stat_repository)):
     return repo.get_all()
 
 
-@stat_router.get("/stats/{stat_id}", response_model=StatResponse)
+@stat_router.get("/stats/{stat_id}", response_model=StatResponse, tags=["Stats"])
 def get_stat_route(stat_id: int, repo=Depends(get_stat_repository)):
     stat = get_stat_by_id(repo, stat_id)
     if stat is None:
@@ -39,7 +38,7 @@ def get_stat_route(stat_id: int, repo=Depends(get_stat_repository)):
     return stat
 
 
-@stat_router.post("/stats/", response_model=StatResponse)
+@stat_router.post("/stats/", response_model=StatResponse, tags=["Stats"])
 def create_stat_route(
     stat_data: CreateStatRequest,
     stat_repo=Depends(get_stat_repository),
@@ -52,7 +51,7 @@ def create_stat_route(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@stat_router.delete("/stats/{stat_id}", response_model=dict)
+@stat_router.delete("/stats/{stat_id}", response_model=dict, tags=["Stats"])
 def delete_stat_route(stat_id: int, repo=Depends(get_stat_repository)):
     stat = repo.get(stat_id)
     if stat is None:

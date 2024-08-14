@@ -23,12 +23,12 @@ class UserResponse(BaseModel):
     name: str
 
 
-@user_router.get("/users/", response_model=list[UserResponse])
+@user_router.get("/users/", response_model=list[UserResponse], tags=["Users"])
 def get_all_users_route(repo=Depends(get_user_repository)):
     return repo.get_all()
 
 
-@user_router.get("/users/{user_id}", response_model=UserResponse)
+@user_router.get("/users/{user_id}", response_model=UserResponse, tags=["Users"])
 def get_user_route(user_id: int, repo=Depends(get_user_repository)):
     user = get_user_by_id(repo, user_id)
     if user is None:
@@ -36,7 +36,7 @@ def get_user_route(user_id: int, repo=Depends(get_user_repository)):
     return user
 
 
-@user_router.get("/users/email/{email}", response_model=UserResponse)
+@user_router.get("/users/email/{email}", response_model=UserResponse, tags=["Users"])
 def get_user_by_email_route(email: str, repo=Depends(get_user_repository)):
     user = get_user_by_email(repo, email)
     if user is None:
@@ -44,7 +44,7 @@ def get_user_by_email_route(email: str, repo=Depends(get_user_repository)):
     return user
 
 
-@user_router.post("/users/", response_model=UserResponse)
+@user_router.post("/users/", response_model=UserResponse, tags=["Users"])
 def create_user_route(
     user_data: CreateUserRequest,
     repo=Depends(get_user_repository),
@@ -53,7 +53,7 @@ def create_user_route(
     return user
 
 
-@user_router.delete("/users/{user_id}", status_code=204)
+@user_router.delete("/users/{user_id}", status_code=204, tags=["Users"])
 def delete_user_route(user_id: int, repo=Depends(get_user_repository)):
     user = repo.get(user_id)
     if user is None:
