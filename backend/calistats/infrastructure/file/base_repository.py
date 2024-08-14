@@ -1,10 +1,12 @@
-from typing import List, Optional, Type, TypeVar
-from calistats.infrastructure.file.database import (
-    read_from_file,
-    write_to_file
-)
+"""
+This file contains a base repository implementation for working with JSON files.
+It provides common functionality for file-based repositories, such as reading and writing data.
+"""
 
-T = TypeVar('T')
+from typing import List, Optional, Type, TypeVar
+from calistats.infrastructure.file.database import read_from_file, write_to_file
+
+T = TypeVar("T")
 
 
 class BaseFileRepository:

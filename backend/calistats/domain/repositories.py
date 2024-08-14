@@ -1,3 +1,8 @@
+"""
+This file defines repository interfaces for interacting with the Stat and StatType models.
+The repositories abstract the data persistence layer and define the contract for data access.
+"""
+
 from abc import ABC, abstractmethod
 from typing import List, Optional
 from calistats.domain.models import Stat, StatType

@@ -1,3 +1,8 @@
+"""
+This file implements the repository interfaces for Stat and StatType using the file-based storage.
+It extends the base repository to provide specific functionality for managing Stat and StatType data.
+"""
+
 from calistats.domain.models import Stat, StatType
 from calistats.domain.repositories import StatRepository, StatTypeRepository
 from calistats.infrastructure.file.base_repository import BaseFileRepository
