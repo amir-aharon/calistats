@@ -1,9 +1,10 @@
 """
 This file defines the API routes for managing StatType entities.
-It provides endpoints for retrieving stat types by ID.
+It provides endpoints for creating, retrieving, listing, and deleting stat types.
 """
 
-from calistats.application.use_cases import create_stat_type, get_stat_type
+from typing import List
+from calistats.application.stat_type_use_cases import create_stat_type, get_stat_type_by_id, delete_stat_type_by_id
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from calistats.interface.dependencies import get_stat_type_repository
@@ -15,30 +16,39 @@ class CreateStatTypeRequest(BaseModel):
     name: str
     unit: str
 
+    class Config:
+        orm_mode = True
 
-@stat_type_router.get("/stat-types/")
+
+class StatTypeResponse(BaseModel):
+    id: int
+    name: str
+    unit: str
+
+
+@stat_type_router.get("/stat-types/", response_model=List[StatTypeResponse])
 def get_all_stat_types_route(repo=Depends(get_stat_type_repository)):
     return repo.get_all()
 
 
-@stat_type_router.get("/stat-types/{stat_type_id}/")
+@stat_type_router.get("/stat-types/{stat_type_id}/", response_model=StatTypeResponse)
 def get_stat_type_route(stat_type_id: int, repo=Depends(get_stat_type_repository)):
-    stat_type = get_stat_type(repo, stat_type_id)
+    stat_type = get_stat_type_by_id(repo, stat_type_id)
     if stat_type is None:
         raise HTTPException(status_code=404, detail="Stat type not found")
     return stat_type
 
 
-@stat_type_router.post("/stat-types/")
+@stat_type_router.post("/stat-types/", response_model=StatTypeResponse)
 def create_stat_type_route(stat_type_data: CreateStatTypeRequest, repo=Depends(get_stat_type_repository)):
-    stat_type = create_stat_type(repo, stat_type_data.model_dump())
+    stat_type = create_stat_type(repo, stat_type_data.dict())
     return stat_type
 
 
-@stat_type_router.delete("/stat-types/{stat_type_id}")
+@stat_type_router.delete("/stat-types/{stat_type_id}", status_code=204)
 def delete_stat_type_route(stat_type_id: int, repo=Depends(get_stat_type_repository)):
     stat_type = repo.get(stat_type_id)
     if stat_type is None:
-        return {"detail": "Stat type not found"}
-    repo.delete(stat_type_id)
-    return {"detail": "Stat type deleted successfully"}
+        raise HTTPException(status_code=404, detail="Stat type not found")
+    delete_stat_type_by_id(repo, stat_type_id)
+    return

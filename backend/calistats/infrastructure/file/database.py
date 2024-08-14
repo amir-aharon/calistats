@@ -11,7 +11,7 @@ T = TypeVar("T")
 
 
 def read_from_file(file_name: str, model: Type[T]) -> List[T]:
-    path = Path(Path(__file__).parent, file_name)
+    path = Path(Path(__file__).parent, "resources", file_name)
     try:
         with path.open("r") as file:
             data = json.load(file)
@@ -23,6 +23,6 @@ def read_from_file(file_name: str, model: Type[T]) -> List[T]:
 
 
 def write_to_file(file_name: str, items: List[T]) -> None:
-    path = Path(Path(__file__).parent, file_name)
+    path = Path(Path(__file__).parent, "resources", file_name)
     with path.open("w") as file:
         json.dump([item.model_dump() for item in items], file, indent=4)

@@ -4,7 +4,7 @@ These models represent the core entities in the system, such as Stat and StatTyp
 """
 
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class StatType(BaseModel):
@@ -16,6 +16,13 @@ class StatType(BaseModel):
 class Stat(BaseModel):
     id: Optional[int] = None
     stat_type_id: int
-    owner_id: int
+    user_id: int
     value: float
     date: Optional[str] = None
+
+
+class User(BaseModel):
+    id: Optional[int] = None
+    name: str
+    email: EmailStr
+    password: str
