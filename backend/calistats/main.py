@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from calistats.interface.routes import router as item_router
+from calistats.interface.main_router import main_router
 
 app = FastAPI()
 
-app.include_router(item_router)
+app.include_router(main_router)
