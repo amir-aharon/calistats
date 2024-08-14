@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "name": "string",
+        "unit": "string"
+    },
+    {
+        "id": 2,
+        "name": "string",
+        "unit": "string"
+    },
+    {
+        "id": 3,
+        "name": "string",
+        "unit": "string"
+    }
+]

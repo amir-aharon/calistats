@@ -33,3 +33,7 @@ class BaseFileRepository:
             self.next_id += 1
         self.items.append(item)
         write_to_file(self.file_path, self.items)
+
+    def delete(self, item_id: int) -> None:
+        self.items = [item for item in self.items if item.id != item_id]
+        write_to_file(self.file_path, self.items)

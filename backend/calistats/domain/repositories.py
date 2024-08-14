@@ -21,6 +21,10 @@ class StatTypeRepository(ABC):
     def add(self, stat_type: StatType) -> None:
         raise NotImplementedError
 
+    @abstractmethod
+    def delete(self, stat_type_id: int) -> None:
+        raise NotImplementedError
+
 
 class StatRepository(ABC):
     @abstractmethod
@@ -29,4 +33,8 @@ class StatRepository(ABC):
 
     @abstractmethod
     def add(self, stat: Stat) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    def delete(self, stat_id: int) -> None:
         raise NotImplementedError

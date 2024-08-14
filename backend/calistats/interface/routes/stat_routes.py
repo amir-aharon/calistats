@@ -33,3 +33,12 @@ def create_stat_route(
         return stat
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@stat_router.delete("/stats/{stat_id}")
+def delete_stat_route(stat_id: int, repo=Depends(get_stat_repository)):
+    stat = repo.get(stat_id)
+    if stat is None:
+        return {"detail": "Stat not found"}
+    repo.delete(stat_id)
+    return {"detail": "Stat deleted successfully"}
