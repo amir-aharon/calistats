@@ -18,9 +18,9 @@ class SupabaseDatabase:
         self.client: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
     def insert(self, table: str, data: dict):
+        if "id" in data:
+            del data["id"]
         response = self.client.table(table).insert(data).execute()
-        if response.status_code != 201:
-            raise Exception(f"Failed to insert data: {response.data}")
         return response.data
 
     def select(self, table: str, filters: dict = None):
@@ -29,17 +29,6 @@ class SupabaseDatabase:
             for key, value in filters.items():
                 query = query.eq(key, value)
         response = query.execute()
-        if response.status_code != 200:
-            raise Exception(f"Failed to fetch data: {response.data}")
-        return response.data
-
-    def update(self, table: str, data: dict, filters: dict):
-        query = self.client.table(table).update(data)
-        for key, value in filters.items():
-            query = query.eq(key, value)
-        response = query.execute()
-        if response.status_code != 200:
-            raise Exception(f"Failed to update data: {response.data}")
         return response.data
 
     def delete(self, table: str, filters: dict):
@@ -47,6 +36,4 @@ class SupabaseDatabase:
         for key, value in filters.items():
             query = query.eq(key, value)
         response = query.execute()
-        if response.status_code != 200:
-            raise Exception(f"Failed to delete data: {response.data}")
         return response.data

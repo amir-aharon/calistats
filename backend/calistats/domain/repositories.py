@@ -28,7 +28,7 @@ class StatTypeRepository(ABC):
 
 class StatRepository(ABC):
     @abstractmethod
-    def get(self, stat_type_id: int) -> Optional[StatType]:
+    def get(self, stat_type_id: int) -> Optional[Stat]:
         raise NotImplementedError
 
     @abstractmethod
