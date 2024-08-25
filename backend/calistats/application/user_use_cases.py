@@ -10,8 +10,8 @@ from calistats.domain.repositories import UserRepository
 
 def create_user(repo: UserRepository, user_data: Dict[str, Any]) -> User:
     user = User(**user_data)
-    repo.add(user)
-    return user
+    user_id = repo.add(user)
+    return get_user_by_id(repo, user_id)
 
 
 def get_user_by_id(repo: UserRepository, user_id: int) -> User:

@@ -20,8 +20,9 @@ class BaseSupabaseRepository:
         data = self.db.select(self.table_name)
         return [self.model(**item) for item in data]
 
-    def add(self, item: T) -> None:
-        self.db.insert(self.table_name, item.model_dump())
+    def add(self, item: T) -> int:
+        object_id = self.db.insert(self.table_name, item.model_dump())
+        return object_id
 
     def delete(self, item_id: int) -> None:
         self.db.delete(self.table_name, {"id": item_id})

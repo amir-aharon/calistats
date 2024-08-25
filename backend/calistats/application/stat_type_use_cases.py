@@ -10,8 +10,8 @@ from calistats.domain.repositories import StatTypeRepository
 
 def create_stat_type(repo: StatTypeRepository, stat_type_data: Dict[str, Any]) -> StatType:
     stat_type = StatType(**stat_type_data)
-    repo.add(stat_type)
-    return stat_type
+    stat_type_id = repo.add(stat_type)
+    return get_stat_type_by_id(repo, stat_type_id)
 
 
 def get_stat_type_by_id(repo: StatTypeRepository, stat_type_id: int) -> StatType:

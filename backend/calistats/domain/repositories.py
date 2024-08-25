@@ -18,7 +18,7 @@ class StatTypeRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def add(self, stat_type: StatType) -> None:
+    def add(self, stat_type: StatType) -> int:
         raise NotImplementedError
 
     @abstractmethod
@@ -36,7 +36,7 @@ class StatRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def add(self, stat: Stat) -> None:
+    def add(self, stat: Stat) -> int:
         raise NotImplementedError
 
     @abstractmethod
@@ -58,7 +58,7 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    def add(self, user: User) -> None:
+    def add(self, user: User) -> int:
         pass
 
     @abstractmethod

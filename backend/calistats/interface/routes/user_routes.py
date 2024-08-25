@@ -49,8 +49,11 @@ def create_user_route(
     user_data: CreateUserRequest,
     repo=Depends(get_user_repository),
 ):
-    user = create_user(repo, user_data.model_dump())
-    return user
+    try:
+        user = create_user(repo, user_data.model_dump())
+        return user
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @user_router.delete("/users/{user_id}", status_code=204, tags=["Users"])

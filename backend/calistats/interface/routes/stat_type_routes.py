@@ -41,8 +41,11 @@ def get_stat_type_route(stat_type_id: int, repo=Depends(get_stat_type_repository
 
 @stat_type_router.post("/stat-types/", response_model=StatTypeResponse, tags=["Stat Types"])
 def create_stat_type_route(stat_type_data: CreateStatTypeRequest, repo=Depends(get_stat_type_repository)):
-    stat_type = create_stat_type(repo, stat_type_data.model_dump())
-    return stat_type
+    try:
+        stat_type = create_stat_type(repo, stat_type_data.model_dump())
+        return stat_type
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @stat_type_router.delete("/stat-types/{stat_type_id}", status_code=204, tags=["Stat Types"])

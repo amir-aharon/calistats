@@ -1,3 +1,4 @@
+from calistats.domain.repositories import StatTypeRepository
 import pytest
 from unittest.mock import Mock
 from calistats.domain.models import StatType
@@ -22,17 +23,17 @@ def stat_type():
 def test_create_stat_type(stat_type_repo_mock, stat_type_data):
     # Arrange
     stat_type_repo_mock.add = Mock()
+    stat_type_repo_mock.get.return_value = stat_type_data
 
     # Act
     result_stat_type = create_stat_type(stat_type_repo_mock, stat_type_data)
 
     # Assert
-    assert result_stat_type.name == stat_type_data["name"]
-    assert result_stat_type.unit == stat_type_data["unit"]
+    assert {**result_stat_type} == {**stat_type_data}
     stat_type_repo_mock.add.assert_called_once()
 
 
-def test_get_stat_type_by_id(stat_type_repo_mock, stat_type):
+def test_get_stat_type_by_id(stat_type_repo_mock: Mock, stat_type: StatType):
     # Arrange
     stat_type_repo_mock.get.return_value = stat_type
 
@@ -40,12 +41,10 @@ def test_get_stat_type_by_id(stat_type_repo_mock, stat_type):
     result_stat_type = get_stat_type_by_id(stat_type_repo_mock, 1)
 
     # Assert
-    assert result_stat_type.id == stat_type.id
-    assert result_stat_type.name == stat_type.name
-    assert result_stat_type.unit == stat_type.unit
+    assert {**result_stat_type.__dict__} == {**stat_type.__dict__}
 
 
-def test_delete_stat_type_by_id(stat_type_repo_mock):
+def test_delete_stat_type_by_id(stat_type_repo_mock: Mock):
     # Arrange
     stat_type_repo_mock.get.return_value = Mock()  # Mock existing stat type
     stat_type_repo_mock.delete = Mock()

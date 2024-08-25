@@ -22,14 +22,13 @@ def user():
 def test_create_user(user_repo_mock, user_data):
     # Arrange
     user_repo_mock.add = Mock()
+    user_repo_mock.get.return_value = user_data
 
     # Act
     result_user = create_user(user_repo_mock, user_data)
 
     # Assert
-    assert result_user.name == user_data["name"]
-    assert result_user.email == user_data["email"]
-    assert result_user.password == user_data["password"]
+    assert {**result_user} == {**user_data}
     user_repo_mock.add.assert_called_once()
 
 
@@ -41,10 +40,7 @@ def test_get_user_by_id(user_repo_mock, user):
     result_user = get_user_by_id(user_repo_mock, 1)
 
     # Assert
-    assert result_user.id == user.id
-    assert result_user.name == user.name
-    assert result_user.email == user.email
-    assert result_user.password == user.password
+    assert {**result_user.__dict__} == {**user.__dict__}
 
 
 def test_get_user_by_email(user_repo_mock, user):

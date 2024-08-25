@@ -20,8 +20,8 @@ def create_stat(stat_repo: StatRepository, stat_type_repo: StatTypeRepository, s
         # ISO 8601 format
         stat_data["date"] = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     stat = Stat(**stat_data)
-    stat_repo.add(stat)
-    return stat
+    stat_id = stat_repo.add(stat)
+    return get_stat_by_id(stat_repo, stat_id)
 
 
 def get_stat_by_id(repo: StatRepository, stat_id: int) -> Stat:
